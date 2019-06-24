@@ -95,6 +95,12 @@ public class EncuestaTest {
 	}
 	
 	@Test
+	public void testExcepciones(){
+		encuesta1.activarEncuesta();
+		encuesta1.responder(respuesta1);
+	}
+	
+	@Test
 	public void test05ObtenerOpcionesDePreguntaAbierta() {
 		assertEquals(null,pregunta1.getOpciones());
 	}

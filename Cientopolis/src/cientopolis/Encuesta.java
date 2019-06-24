@@ -64,20 +64,23 @@ public class Encuesta {
 	}
 	
 	public void comenzarEncuesta(){
-		
+		try{
 		estadoActual.comenzarEncuesta(this);
+		}catch (Excepciones e){
+			System.out.println(e.getMessage());
+		}
 		/*encuestaRespondida = new EncuestaRespondida(this);
 		encuestaRespondida.setProximaPregunta(this.primerPregunta);
 		System.out.println("La primer pregunta es: " + this.primerPregunta.descripcionPregunta);*/
 	}
 	
-	public EncuestaRespondida getEncuestaRespondida(){
-		return this.encuestaRespondida;
-	}
-	
 	public void responder(Respuesta respuesta){
 		
-		estadoActual.responderEncuesta(respuesta);
+		try{
+			estadoActual.responderEncuesta(respuesta);
+		}catch (Excepciones e){
+			System.out.println(e.getMessage());
+		}
 		/*if (!encuestaRespondida.getProximaPregunta().esFinal){
 			//se agrega la respuesta a encuesta respondida,se responde la pregunta, se setea la proxima pregunta
 			System.out.println("Su respuesta fue: " + respuesta.getDescripcion());
@@ -104,10 +107,6 @@ public class Encuesta {
 	
 	public void agregarEncuestaFinalizada(EncuestaRespondida encuesta){
 		this.encuestasFinalizadas.add(encuesta);
-	}
-
-	public void resetEncuesta() {
-		this.encuestaRespondida = null;
 	}
 	
 }
