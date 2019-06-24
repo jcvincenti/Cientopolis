@@ -10,11 +10,33 @@ public class Encuesta {
 	private Integer cantidadDeVecesRespondida;
 	private EncuestaRespondida encuestaRespondida;
 	private List<EncuestaRespondida> encuestasFinalizadas;
+	private EstadoDeEncuesta estadoActual;
 	
 	public Encuesta (String nombre){
 		this.nombre = nombre;
 		this.cantidadDeVecesRespondida = 0;
 		this.encuestasFinalizadas = new ArrayList<EncuestaRespondida>();
+		this.estadoActual = new EnEdicion();
+	}
+	
+	private void setEstado(EstadoDeEncuesta estado) {
+		this.estadoActual = estado;
+	}
+	
+	public void editarEncuesta() {
+		this.setEstado(new EnEdicion());
+	}
+	
+	public void activarEncuesta() {
+		this.setEstado(new Activa());
+	}
+	
+	public void cerrarEncuesta(){
+		this.setEstado(new Cerrada());
+	}
+	
+	public EstadoDeEncuesta getEstado() {
+		return this.estadoActual;
 	}
 	
 	public static Encuesta nuevaEncuesta(String nombre){
@@ -42,13 +64,21 @@ public class Encuesta {
 	}
 	
 	public void comenzarEncuesta(){
-		encuestaRespondida = new EncuestaRespondida(this);
+		
+		estadoActual.comenzarEncuesta(this);
+		/*encuestaRespondida = new EncuestaRespondida(this);
 		encuestaRespondida.setProximaPregunta(this.primerPregunta);
-		System.out.println("La primer pregunta es: " + this.primerPregunta.descripcionPregunta);
+		System.out.println("La primer pregunta es: " + this.primerPregunta.descripcionPregunta);*/
+	}
+	
+	public EncuestaRespondida getEncuestaRespondida(){
+		return this.encuestaRespondida;
 	}
 	
 	public void responder(Respuesta respuesta){
-		if (!encuestaRespondida.getProximaPregunta().esFinal){
+		
+		estadoActual.responderEncuesta(respuesta);
+		/*if (!encuestaRespondida.getProximaPregunta().esFinal){
 			//se agrega la respuesta a encuesta respondida,se responde la pregunta, se setea la proxima pregunta
 			System.out.println("Su respuesta fue: " + respuesta.getDescripcion());
 			encuestaRespondida.agregarRespuesta(respuesta);
@@ -64,12 +94,20 @@ public class Encuesta {
 			encuestaRespondida.getProximaPregunta().responder(respuesta);
 			this.agregarEncuestaFinalizada(encuestaRespondida);
 			this.cantidadDeVecesRespondida = this.cantidadDeVecesRespondida + 1;
-		}
+		}*/
 		
 	}
 	
-	private void agregarEncuestaFinalizada(EncuestaRespondida encuesta){
+	public void sumarCantidadDeVecesRespondida(){
+		this.cantidadDeVecesRespondida = this.cantidadDeVecesRespondida + 1;
+	}
+	
+	public void agregarEncuestaFinalizada(EncuestaRespondida encuesta){
 		this.encuestasFinalizadas.add(encuesta);
+	}
+
+	public void resetEncuesta() {
+		this.encuestaRespondida = null;
 	}
 	
 }

@@ -82,6 +82,8 @@ public class EncuestaTest {
 		encuesta1.setPrimerPregunta(pregunta1);
 		
 		//assertEquals(6,encuesta1.getPreguntas().size());
+		encuesta1.activarEncuesta();
+		
 		encuesta1.comenzarEncuesta();
 		encuesta1.responder(respuesta1);
 		encuesta1.responder(respuesta2);
