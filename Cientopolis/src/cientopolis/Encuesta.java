@@ -64,11 +64,8 @@ public class Encuesta {
 	}
 	
 	public void comenzarEncuesta() throws Excepciones{
-		try{
+		
 		estadoActual.comenzarEncuesta(this);
-		}catch (Excepciones e){
-			System.out.println(e.getMessage());
-		}
 		/*encuestaRespondida = new EncuestaRespondida(this);
 		encuestaRespondida.setProximaPregunta(this.primerPregunta);
 		System.out.println("La primer pregunta es: " + this.primerPregunta.descripcionPregunta);*/
