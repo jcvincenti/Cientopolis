@@ -84,20 +84,37 @@ public class EncuestaTest {
 		//assertEquals(6,encuesta1.getPreguntas().size());
 		encuesta1.activarEncuesta();
 		
+		try{
 		encuesta1.comenzarEncuesta();
 		encuesta1.responder(respuesta1);
 		encuesta1.responder(respuesta2);
 		encuesta1.responder(respuesta4);
 		encuesta1.responder(respuesta5);
 		encuesta1.responder(respuesta6);
-		
+		}catch (Excepciones e){
+			//No hay excepcion para capturar.
+		}
 		assertEquals(new Integer(1),encuesta1.cantidadDeVecesRespondida());
+		
 	}
 	
 	@Test
-	public void testExcepciones(){
-		encuesta1.activarEncuesta();
+	public void testDebeActivarseLaEncuestaParaPoderResponderla(){
+		try{
 		encuesta1.responder(respuesta1);
+		}catch (Excepciones e){
+			assertEquals(e.getMessage(), "El estado de la encuesta debe ser 'Activa'. No se puede comenzar la encuesta");
+		}
+	}
+	
+	@Test
+	public void testDebeComenzarseLaEncuestaParaPoderResponderla(){
+		encuesta1.activarEncuesta();
+		try{
+		encuesta1.responder(respuesta1);
+		}catch (Excepciones e){
+			assertEquals(e.getMessage(), "Debe comenzar la encuesta para poder responderla");
+		}
 	}
 	
 	@Test

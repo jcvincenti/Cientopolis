@@ -63,7 +63,7 @@ public class Encuesta {
 		return this.primerPregunta;
 	}
 	
-	public void comenzarEncuesta(){
+	public void comenzarEncuesta() throws Excepciones{
 		try{
 		estadoActual.comenzarEncuesta(this);
 		}catch (Excepciones e){
@@ -74,13 +74,9 @@ public class Encuesta {
 		System.out.println("La primer pregunta es: " + this.primerPregunta.descripcionPregunta);*/
 	}
 	
-	public void responder(Respuesta respuesta){
-		
-		try{
+	public void responder (Respuesta respuesta) throws Excepciones{
+
 			estadoActual.responderEncuesta(respuesta);
-		}catch (Excepciones e){
-			System.out.println(e.getMessage());
-		}
 		/*if (!encuestaRespondida.getProximaPregunta().esFinal){
 			//se agrega la respuesta a encuesta respondida,se responde la pregunta, se setea la proxima pregunta
 			System.out.println("Su respuesta fue: " + respuesta.getDescripcion());
