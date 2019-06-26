@@ -35,7 +35,7 @@ public class EncuestaTest {
 	Abierta pregunta1 = new Abierta ("pregunta1",false,pregunta2);
 	
 	Proyecto proyecto1 = new Proyecto("proyecto re piola");
-	Encuesta encuesta1 = Encuesta.nuevaEncuesta("encuesta piola");
+	Encuesta encuesta1 = Encuesta.nuevaEncuesta("encuesta piola","13/07/2015");
 	
 	@Before
 	public void setUp(){
@@ -208,7 +208,7 @@ public class EncuestaTest {
 		Proyecto proyecto1 = Proyecto.nuevoProyecto("proyectoX");
 		
 		pepe.agregarProyecto(proyecto1);
-		pepe.agregarEncuestaAProyecto("proyectoX", "encuesta piola");
+		pepe.agregarEncuestaAProyecto("proyectoX", "encuesta piola", "13/07/2015");
 		
 		assertEquals(pepe.getProyecto("proyectoX"),proyecto1);
 	}
@@ -227,11 +227,11 @@ public class EncuestaTest {
 	public void test18ObtenerLasPrimeras5EncuestasConMayorCantidadDeRespuestas(){
 		Proyecto proyecto1 = Proyecto.nuevoProyecto("proyectoX");
 		proyecto1.agregarEncuesta(encuesta1);
-		Encuesta encuesta2 = new Encuesta ("encuesta2");
-		Encuesta encuesta3 = new Encuesta ("encuesta3");
-		Encuesta encuesta4 = new Encuesta ("encuesta4");
-		Encuesta encuesta5 = new Encuesta ("encuesta5");
-		Encuesta encuesta6 = new Encuesta ("encuesta6");
+		Encuesta encuesta2 = new Encuesta ("encuesta2", "13/07/2015");
+		Encuesta encuesta3 = new Encuesta ("encuesta3", "13/07/2015");
+		Encuesta encuesta4 = new Encuesta ("encuesta4", "13/07/2015");
+		Encuesta encuesta5 = new Encuesta ("encuesta5", "13/07/2015");
+		Encuesta encuesta6 = new Encuesta ("encuesta6", "13/07/2015");
 		proyecto1.agregarEncuesta(encuesta2);
 		proyecto1.agregarEncuesta(encuesta3);
 		proyecto1.agregarEncuesta(encuesta4);
