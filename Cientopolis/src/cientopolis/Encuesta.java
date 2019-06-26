@@ -1,7 +1,8 @@
 package cientopolis;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Encuesta {
 	
@@ -10,12 +11,18 @@ public class Encuesta {
 	private Integer cantidadDeVecesRespondida;
 	private List<EncuestaRespondida> encuestasFinalizadas;
 	private EstadoDeEncuesta estadoActual;
+	private LocalDate fechaDeCreacion;
 	
-	public Encuesta (String nombre){
+	public Encuesta (String nombre,String fecha){
 		this.nombre = nombre;
 		this.cantidadDeVecesRespondida = 0;
 		this.encuestasFinalizadas = new ArrayList<EncuestaRespondida>();
 		this.estadoActual = new EnEdicion();
+		this.fechaDeCreacion = LocalDate.parse(fecha, DateTimeFormatter.ofPattern(("dd/MM/yyyy")));
+	}
+	
+	public LocalDate getFechaDeCreacion(){
+		return this.fechaDeCreacion;
 	}
 	
 	private void setEstado(EstadoDeEncuesta estado) {
@@ -38,8 +45,8 @@ public class Encuesta {
 		return this.estadoActual;
 	}
 	
-	public static Encuesta nuevaEncuesta(String nombre){
-		return (new Encuesta (nombre));
+	public static Encuesta nuevaEncuesta(String nombre,String fecha){
+		return (new Encuesta (nombre,fecha));
 	}
 	
 	public void setPrimerPregunta(Respondible pregunta){
