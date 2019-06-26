@@ -3,11 +3,11 @@ package cientopolis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleSeleccion extends Pregunta {
+public class MultipleSeleccion extends Pregunta implements Respondible{
 
 	private List <String> opciones;
 	
-	public MultipleSeleccion(String pregunta, Boolean ultima,Pregunta preguntaSig,List<String> respuestas) {
+	public MultipleSeleccion(String pregunta, Boolean ultima,Respondible preguntaSig,List<String> respuestas) {
 		super(pregunta,ultima,false,preguntaSig);
 		opciones = new ArrayList <String>();
 		opciones.addAll(respuestas);
@@ -19,5 +19,9 @@ public class MultipleSeleccion extends Pregunta {
 	
 	public List<String> getOpciones(){
 		return this.opciones;
+	}
+	
+	public boolean esFinal(){
+		return this.esFinal;
 	}
 }

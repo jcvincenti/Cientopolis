@@ -6,7 +6,7 @@ import java.util.List;
 public class Encuesta {
 	
 	private String nombre;
-	private Pregunta primerPregunta;
+	private Respondible primerPregunta;
 	private Integer cantidadDeVecesRespondida;
 	private List<EncuestaRespondida> encuestasFinalizadas;
 	private EstadoDeEncuesta estadoActual;
@@ -42,11 +42,11 @@ public class Encuesta {
 		return (new Encuesta (nombre));
 	}
 	
-	public void setPrimerPregunta(Pregunta pregunta){
+	public void setPrimerPregunta(Respondible pregunta){
 		this.primerPregunta = pregunta;
 	}
 	
-	public void agregarPregunta (Pregunta pregunta, Pregunta preguntaPadre){
+	public void agregarPregunta (Respondible pregunta, Respondible preguntaPadre){
 		preguntaPadre.setPreguntaSiguiente(pregunta);
 	}
 	
@@ -58,7 +58,7 @@ public class Encuesta {
 		return this.cantidadDeVecesRespondida;
 	}
 	
-	public Pregunta getPrimerPregunta(){
+	public Respondible getPrimerPregunta(){
 		return this.primerPregunta;
 	}
 	

@@ -1,8 +1,8 @@
 package cientopolis;
 
-public class Abierta extends Pregunta{
+public class Abierta extends Pregunta implements Respondible{
 	
-	public Abierta (String pregunta, Boolean ultima,Pregunta preguntaSig){
+	public Abierta (String pregunta, Boolean ultima,Respondible preguntaSig){
 		super (pregunta,ultima, false, preguntaSig);
 	}
 	
@@ -12,6 +12,10 @@ public class Abierta extends Pregunta{
 	
 	public String getOpciones(){
 		return null;
+	}
+	
+	public boolean esFinal(){
+		return this.esFinal;
 	}
 	
 }

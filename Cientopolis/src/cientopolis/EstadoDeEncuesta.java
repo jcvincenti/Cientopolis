@@ -2,7 +2,7 @@ package cientopolis;
 
 public abstract class EstadoDeEncuesta {
 
-	public void addPregunta (Pregunta pregunta,Pregunta preguntaPadre, Encuesta encuesta) throws Excepciones{
+	public void addPregunta (Respondible pregunta,Respondible preguntaPadre, Encuesta encuesta) throws Excepciones{
 		throw new Excepciones(1);
 	}
 	

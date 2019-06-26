@@ -40,7 +40,7 @@ public class Investigador implements Notificable{
 		return this.proyectos.stream().filter(proyecto -> proyecto.getNombre().equals(nombre)).findFirst().orElse(null);
 	}
 	
-	public void notificar(Encuesta encuesta, Pregunta pregunta, Respuesta respuesta){
+	public void notificar(Encuesta encuesta, Respondible pregunta, Respuesta respuesta){
 		System.out.println("Se ha respondido la pregunta " + pregunta.getPregunta() + " de la encuesta " + encuesta.getNombre() 
 				+ " con la respuesta " + respuesta.getDescripcion());
 	}

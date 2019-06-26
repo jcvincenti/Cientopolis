@@ -20,7 +20,7 @@ public class Notificador {
 		observers.remove(notificable);
 	}
 	
-	public void notificarObservers(Encuesta encuesta, Pregunta pregunta, Respuesta respuesta){
+	public void notificarObservers(Encuesta encuesta, Respondible pregunta, Respuesta respuesta){
 		for (Notificable notificable : observers) {
 			notificable.notificar(encuesta, pregunta, respuesta);
 		}

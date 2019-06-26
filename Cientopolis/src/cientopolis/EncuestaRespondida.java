@@ -7,7 +7,7 @@ public class EncuestaRespondida {
 
 	private List<Respuesta> respuestas;
 	private Encuesta encuestaRespondida;
-	private Pregunta proximaPregunta;
+	private Respondible proximaPregunta;
 	
 	public EncuestaRespondida(Encuesta encuesta){
 		respuestas = new ArrayList<Respuesta>();
@@ -22,11 +22,11 @@ public class EncuestaRespondida {
 		return this.respuestas;
 	}
 	
-	public void setProximaPregunta(Pregunta pregunta){
+	public void setProximaPregunta(Respondible pregunta){
 		this.proximaPregunta = pregunta;
 	}
 	
-	public Pregunta getProximaPregunta(){
+	public Respondible getProximaPregunta(){
 		return this.proximaPregunta;
 	}
 	

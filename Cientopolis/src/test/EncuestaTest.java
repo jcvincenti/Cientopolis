@@ -28,7 +28,7 @@ public class EncuestaTest {
 	Abierta pregunta5 = new Abierta ("pregunta5",false,pregunta6);
 	Abierta pregunta4 = new Abierta ("pregunta4",false,pregunta6);
 	
-	Map <Respuesta,Pregunta> opcionesPregunta3 = new HashMap <Respuesta,Pregunta>();
+	Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 	
 	SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
 	Abierta pregunta2 = new Abierta ("pregunta2",false,pregunta3);
@@ -65,16 +65,21 @@ public class EncuestaTest {
 	@Test
 	public void test() {
 		
+		Investigador investigador1 = new Investigador("Roberto","Gomez");
+		Notificador notificador = new Notificador();
+		notificador.addObserver(investigador1);
+		
 		Abierta pregunta6 = new Abierta("pregunta6",true,null);
 		
 		Abierta pregunta5 = new Abierta ("pregunta5",false,pregunta6);
 		Abierta pregunta4 = new Abierta ("pregunta4",false,pregunta6);
 		
-		Map <Respuesta,Pregunta> opcionesPregunta3 = new HashMap <Respuesta,Pregunta>();
+		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
-		SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		Respondible pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		pregunta3 = new ImportanteEspecifica(pregunta3,notificador,encuesta1,respuesta4);
 		Abierta pregunta2 = new Abierta ("pregunta2",false,pregunta3);
 		Abierta pregunta1 = new Abierta ("pregunta1",false,pregunta2);
 		proyecto1.agregarEncuesta(encuesta1);
@@ -132,7 +137,7 @@ public class EncuestaTest {
 	
 	@Test
 	public void test07ObtenerLaPreguntaSiguienteAUnaPreguntaDeSimpleSeleccion(){
-		Map <Respuesta,Pregunta> opcionesPregunta3 = new HashMap <Respuesta,Pregunta>();
+		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
@@ -150,7 +155,7 @@ public class EncuestaTest {
 	
 	@Test
 	public void test09ObtenerLasOpcionesAUnaPreguntaSimpleSeleccion(){
-		Map <Respuesta,Pregunta> opcionesPregunta3 = new HashMap <Respuesta,Pregunta>();
+		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);

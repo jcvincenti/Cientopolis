@@ -10,7 +10,7 @@ public class Activa extends EstadoDeEncuesta {
 		this.encuesta = encuestaAResponder;
 		this.encuestaRespondida = new EncuestaRespondida(encuestaAResponder);
 		encuestaRespondida.setProximaPregunta(this.encuesta.getPrimerPregunta());
-		System.out.println("La primer pregunta es: " + this.encuesta.getPrimerPregunta().descripcionPregunta);
+		System.out.println("La primer pregunta es: " + this.encuesta.getPrimerPregunta().getPregunta());
 	}
 	
 	@Override
@@ -18,7 +18,7 @@ public class Activa extends EstadoDeEncuesta {
 		if(this.encuestaRespondida == null){
 			throw new Excepciones(3);
 		}else{
-			if (!encuestaRespondida.getProximaPregunta().esFinal){
+			if (!encuestaRespondida.getProximaPregunta().esFinal()){
 				//se agrega la respuesta a encuesta respondida,se responde la pregunta, se setea la proxima pregunta
 				System.out.println("Su respuesta fue: " + respuesta.getDescripcion());
 				encuestaRespondida.agregarRespuesta(respuesta);

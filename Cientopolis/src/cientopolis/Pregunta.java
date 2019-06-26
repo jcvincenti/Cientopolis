@@ -1,25 +1,25 @@
 package cientopolis;
 
-public abstract class Pregunta {
+public abstract class Pregunta implements Respondible{
 	
 	protected String descripcionPregunta;
 	protected Boolean compuesta;
 	protected Boolean esFinal;
-	protected Pregunta preguntaSiguiente;
+	protected Respondible preguntaSiguiente;
 	protected Respuesta respuesta;
 	
-	public Pregunta(String pregunta, Boolean ultima, Boolean compuesta,Pregunta preguntaSig){
+	public Pregunta(String pregunta, Boolean ultima, Boolean compuesta,Respondible preguntaSig){
 		this.descripcionPregunta = pregunta;
 		this.esFinal = ultima;
 		this.compuesta = compuesta;
 		this.preguntaSiguiente = preguntaSig;
 	}
 	
-	public Pregunta preguntaSiguiente(){
+	public Respondible preguntaSiguiente(){
 		return this.preguntaSiguiente;
 	}
 	
-	public void setPreguntaSiguiente(Pregunta pregunta){
+	public void setPreguntaSiguiente(Respondible pregunta){
 		this.preguntaSiguiente = pregunta;
 		this.esFinal = false;
 	}
@@ -28,7 +28,7 @@ public abstract class Pregunta {
 		return this.descripcionPregunta;
 	}
 	
-	protected abstract void responder(Respuesta respuesta);
+	public abstract void responder(Respuesta respuesta);
 	
 	public Boolean getTipoDePregunta(){
 		return this.compuesta;
