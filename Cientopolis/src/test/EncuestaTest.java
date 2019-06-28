@@ -80,8 +80,6 @@ public class EncuestaTest {
 		proyecto1.agregarEncuesta(encuesta1);
 		
 		encuesta1.setPrimerPregunta(pregunta1);
-		
-		//assertEquals(6,encuesta1.getPreguntas().size());
 		encuesta1.activarEncuesta();
 		
 		try{
@@ -109,7 +107,7 @@ public class EncuestaTest {
 	}
 	
 	@Test
-	public void test05() {
+	public void test06ObtenerTodasLasRespuestasDeUnaEncuesta() {
 		
 		Investigador investigador1 = new Investigador("Roberto","Gomez");
 		Notificador notificador = new Notificador();
