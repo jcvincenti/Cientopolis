@@ -16,7 +16,9 @@ public abstract class Trabajo {
 	}
 	*/
 	
-	public abstract List<Trabajo> getTodasLasEncuestas();
+	public abstract boolean getEstaFinalizada();
+	
+	public abstract List<Encuesta> getTodasLasEncuestas();
 	
 	public abstract List<Trabajo> getEncuestas();
 	

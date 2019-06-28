@@ -20,6 +20,10 @@ public class Notificador {
 		observers.remove(notificable);
 	}
 	
+	public List<Notificable> getObservers(){
+		return this.observers;
+	}
+	
 	public void notificarObservers(Encuesta encuesta, Respondible pregunta, Respuesta respuesta){
 		for (Notificable notificable : observers) {
 			notificable.notificar(encuesta, pregunta, respuesta);

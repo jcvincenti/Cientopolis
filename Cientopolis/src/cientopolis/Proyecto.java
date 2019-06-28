@@ -69,8 +69,8 @@ public class Proyecto extends Trabajo{
 	return trabajosARetornar;
 	}
 	
-	public List<Trabajo> getTodasLasEncuestas (){
-		List<Trabajo> encuestasARetornar = new ArrayList<Trabajo>();		
+	public List<Encuesta> getTodasLasEncuestas (){
+		List<Encuesta> encuestasARetornar = new ArrayList<Encuesta>();		
 		if (!trabajos.isEmpty()){
 			for(Trabajo trabajoHijo : trabajos){
 				encuestasARetornar.addAll(trabajoHijo.getTodasLasEncuestas());
@@ -83,36 +83,44 @@ public class Proyecto extends Trabajo{
 		return (new Proyecto(nombre));
 	}
 	
-	public List<Trabajo> getTopCincoEncuestasFinalizadas(){
-		List<Trabajo> topEncuestas = new ArrayList<Trabajo>();
-		Collections.sort(this.trabajos, (Trabajo e1, Trabajo e2)->e1.cantidadDeVecesRespondida()-e2.cantidadDeVecesRespondida());
-		if (trabajos.size()<5){
-			topEncuestas = trabajos;
-		}else{
-		topEncuestas = this.trabajos.subList(0, 5);
+	public List<Encuesta> getEncuestasFinalizadas(){
+		List<Encuesta> topEncuestas = new ArrayList<Encuesta>();
+		topEncuestas = this.getTodasLasEncuestas();
+		Collections.sort(topEncuestas, (Trabajo e1, Trabajo e2)->e1.cantidadDeVecesRespondida()-e2.cantidadDeVecesRespondida());
+		if (trabajos.size()>5){
+			topEncuestas = topEncuestas.subList(0, 5);
 		}
 		return topEncuestas;
 	}
 	
-	//nose si esta bien hecha o si es un quilombo y se podria hacer mejor (me refiero a buscarProyectoAAgregarTrabajo(Trabajo trabajo)
+	public boolean getEstaFinalizada(){
+		List<Encuesta> temp = new ArrayList<Encuesta>(this.getTodasLasEncuestas());
+		boolean finalizada = true;
+		for (Encuesta encuesta : temp) {
+			if (!encuesta.getEstaFinalizada()){
+				finalizada = false;
+			}
+		}
+		return finalizada;
+	}
+	
 		@Override
 		public void agregarTrabajoAProyecto(Trabajo trabajo,Proyecto proyecto) throws Excepciones{
-			if (this.contieneAlTrabajo(trabajo)) { //compara si el trabajo actual no lo tiene dentro de su lista de trabajo ya incluido
+			if (this.contieneAlTrabajo(trabajo)) {
 				throw new Excepciones(5);
-			}else if(proyecto.equals(this)){ // compara si el proyecto actual es al que se le quiere insertar el nuevo trabajo
+			}else if(proyecto.equals(this)){ 
 				this.trabajos.add(trabajo);
 			}else{
-				this.buscarProyectoAAgregarTrabajo(trabajo,proyecto); //hace un recorrido por las sublistas del proyecto actual para buscar si contiene el Proyecto deseado para agregar dicho trabajo
+				this.buscarProyectoAAgregarTrabajo(trabajo,proyecto);
 			}
 		}
 
-		//devolver una Excepcion que indique que ningún proyecto contiene el proyecto deseado para agregar dicho Trabajo? 
-		//lo implemente de todas maneras pero no modifique nada creado anteriormente :)
 		public void buscarProyectoAAgregarTrabajo(Trabajo trabajo,Proyecto proyecto) throws Excepciones {
 			for (Trabajo trabajo2 : trabajos) {
 				if(trabajo2.esProyecto()){
 					if(trabajo2.equals(proyecto)){
 						trabajo2.agregarTrabajoAProyecto(trabajo2, proyecto);
+						break;
 					}else{
 						trabajo2.buscarProyectoAAgregarTrabajo(trabajo, proyecto);
 					}
@@ -120,8 +128,6 @@ public class Proyecto extends Trabajo{
 			}
 		}
 		
-		
-		// modificar? podría recorrerse la lista y pregunta a cada elemento la cantidad de veces que se respondio.
 		public Integer cantidadDeVecesRespondida(){
 			return null;
 		}
@@ -134,5 +140,4 @@ public class Proyecto extends Trabajo{
 		public boolean esProyecto(){
 			return true;
 		}
-	
 }

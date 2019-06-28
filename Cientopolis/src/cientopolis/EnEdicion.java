@@ -5,6 +5,6 @@ public class EnEdicion extends EstadoDeEncuesta {
 
 	@Override
 	public void addPregunta (Respondible pregunta, Respondible preguntaPadre,Encuesta encuesta) {
-		encuesta.agregarPregunta(pregunta, preguntaPadre);
+		preguntaPadre.setPreguntaSiguiente(pregunta);
 	}
 }

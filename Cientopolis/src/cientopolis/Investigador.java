@@ -67,7 +67,11 @@ public class Investigador implements Notificable{
 	}
 	
 	public List<Trabajo> getProyectos(){
-		return this.proyectos;
+		List<Trabajo> temp = new ArrayList<Trabajo>();
+		for (Trabajo trabajo : proyectos) {
+			temp.addAll(trabajo.getProyectos());
+		}
+		return temp;
 	}
 	
 	public void agregarProyecto (Proyecto proyecto){

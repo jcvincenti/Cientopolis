@@ -9,5 +9,4 @@ public class EncuestasMasUtilizadas extends CriteriosDeOrden {
 		//se retorna las primeras 25.
 		return e2.cantidadDeVecesRespondida().compareTo(e1.cantidadDeVecesRespondida());
 	}
-
 }
