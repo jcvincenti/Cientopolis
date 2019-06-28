@@ -90,12 +90,12 @@ public class EncuestaTest {
 		encuesta1.activarEncuesta();
 		
 		try{
-		encuesta1.comenzarEncuesta();
-		encuesta1.responder(respuesta1);
-		encuesta1.responder(respuesta2);
-		encuesta1.responder(respuesta4);
-		encuesta1.responder(respuesta5);
-		encuesta1.responder(respuesta6);
+			encuesta1.comenzarEncuesta();
+			encuesta1.responder(respuesta1);
+			encuesta1.responder(respuesta2);
+			encuesta1.responder(respuesta3);
+			encuesta1.responder(respuesta5);
+			encuesta1.responder(respuesta6);
 		}catch (Excepciones e){
 			//No hay excepcion para capturar.
 		}
@@ -203,24 +203,13 @@ public class EncuestaTest {
 	}
 	
 	@Test
-	public void test16VerificarSiElProyectoExiste(){
-		Investigador pepe = new Investigador("pepe","pepito");
-		Proyecto proyecto1 = Proyecto.nuevoProyecto("proyectoX");
-		
-		pepe.agregarProyecto(proyecto1);
-		pepe.agregarEncuestaAProyecto("proyectoX", "encuesta piola", "13/07/2015");
-		
-		assertEquals(pepe.getProyecto("proyectoX"),proyecto1);
-	}
-	
-	@Test
 	public void test17ObtenerLasEncuestasDeUnProyecto(){
 
 		Proyecto proyecto1 = Proyecto.nuevoProyecto("proyectoX");
 		proyecto1.agregarEncuesta(encuesta1);
 		
 		
-		assertTrue(proyecto1.getEncuestas().contains(encuesta1));
+		assertTrue(proyecto1.getTodasLasEncuestas().contains(encuesta1));
 	}
 	
 	@Test
@@ -239,10 +228,10 @@ public class EncuestaTest {
 		proyecto1.agregarEncuesta(encuesta6);
 		
 		assertTrue(proyecto1.getTopCincoEncuestasFinalizadas().contains(encuesta1)&&
-				proyecto1.getEncuestas().contains(encuesta2)&&
-				proyecto1.getEncuestas().contains(encuesta3)&&
-				proyecto1.getEncuestas().contains(encuesta4)&& 
-				proyecto1.getEncuestas().contains(encuesta5));
+				proyecto1.getTodasLasEncuestas().contains(encuesta2)&&
+				proyecto1.getTodasLasEncuestas().contains(encuesta3)&&
+				proyecto1.getTodasLasEncuestas().contains(encuesta4)&& 
+				proyecto1.getTodasLasEncuestas().contains(encuesta5));
 	}
 	
 	@Test
@@ -288,6 +277,124 @@ public class EncuestaTest {
 		assertTrue(respuesta7.getDescripcion().contains("opcion1")&&
 				respuesta7.getDescripcion().contains("opcion2")&&
 				respuesta7.getDescripcion().contains("opcion3"));
+	}
+	
+	@Test
+	public void test23AgregarUnaEncuestaAUnSubproyecto(){
+		Proyecto proyecto1 = new Proyecto("Proyecto1");
+		Proyecto proyecto2 = new Proyecto("Proyecto2");
+		Proyecto proyecto3 = new Proyecto("Proyecto3");
+		try{
+		proyecto3.agregarTrabajoAProyecto(encuesta1, proyecto3);
+		proyecto2.agregarTrabajoAProyecto(proyecto3, proyecto2);
+		proyecto1.agregarTrabajoAProyecto(proyecto2, proyecto1);
+		}catch (Excepciones e){
+			//no hay excepciones que capturar
+		}
+		assertTrue(proyecto1.getTodasLasEncuestas().contains(encuesta1));
+		assertFalse(proyecto1.getTodasLasEncuestas().contains(proyecto1));
+		assertTrue(proyecto1.getTrabajos().contains(encuesta1));
+		assertTrue(proyecto1.getTrabajos().contains(proyecto1));
+		assertTrue(proyecto1.getProyectos().contains(proyecto3));
+		assertFalse(proyecto1.getProyectos().contains(encuesta1));
+		
+	}
+	
+	@Test
+	public void test25OrdernarPorProyecto(){
+		Investigador investigador1 = new Investigador("pepe", "pepito");
+		Proyecto proyecto1 = new Proyecto("Proyecto1");
+		Proyecto proyecto2 = new Proyecto("Proyecto2");
+		Proyecto proyecto3 = new Proyecto("Proyecto3");
+		Encuesta encuesta2 = new Encuesta ("encuesta2", "13/07/2018");
+		Encuesta encuesta3 = new Encuesta ("encuesta3", "13/07/2017");
+		
+		try{
+			proyecto3.agregarTrabajoAProyecto(encuesta1, proyecto3);
+			proyecto3.agregarTrabajoAProyecto(encuesta2, proyecto3);
+			proyecto1.agregarTrabajoAProyecto(encuesta3, proyecto1);
+			proyecto2.agregarTrabajoAProyecto(proyecto3, proyecto2);
+			proyecto1.agregarTrabajoAProyecto(proyecto2, proyecto1);
+			investigador1.agregarProyecto(proyecto1);
+		}catch (Excepciones e){
+				//no hay excepciones que capturar
+		}
+		
+		investigador1.setOrdenPorProyecto();
+		for(Trabajo trabajo : investigador1.getEncuestasOrdenadas()){
+			System.out.println(trabajo.getNombre());
+		}
+		
+		assertTrue(proyecto1.getEncuestas().contains(encuesta3));
+		assertTrue(proyecto1.getTodasLasEncuestas().contains(encuesta3));
+		assertTrue(investigador1.getEncuestasOrdenadas().get(0).equals(encuesta3));
+		assertTrue(investigador1.getEncuestasOrdenadas().size() == 3);
+	}
+	
+	@Test
+	public void testOrdenarEncuestasPorMasUtilizadas(){
+		Investigador investigador1 = new Investigador("Roberto","Gomez");
+		Notificador notificador = new Notificador();
+		notificador.addObserver(investigador1);
+		
+		Abierta pregunta6 = new Abierta("pregunta6",true,null);
+		
+		Abierta pregunta5 = new Abierta ("pregunta5",false,pregunta6);
+		Abierta pregunta4 = new Abierta ("pregunta4",false,pregunta6);
+		
+		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
+		opcionesPregunta3.put(respuesta3, pregunta4);
+		opcionesPregunta3.put(respuesta4, pregunta5);
+		
+		Respondible pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		pregunta3 = new ImportanteEspecifica(pregunta3,notificador,encuesta1,respuesta4);
+		Abierta pregunta2 = new Abierta ("pregunta2",false,pregunta3);
+		Abierta pregunta1 = new Abierta ("pregunta1",false,pregunta2);
+		proyecto1.agregarEncuesta(encuesta1);
+		
+		encuesta1.setPrimerPregunta(pregunta1);
+		
+		//assertEquals(6,encuesta1.getPreguntas().size());
+		encuesta1.activarEncuesta();
+		
+		Proyecto proyecto1 = new Proyecto("Proyecto1");
+		Proyecto proyecto2 = new Proyecto("Proyecto2");
+		Proyecto proyecto3 = new Proyecto("Proyecto3");
+		Encuesta encuesta2 = new Encuesta ("encuesta2", "13/07/2018");
+		Encuesta encuesta3 = new Encuesta ("encuesta3", "13/07/2017");
+		
+		try{
+			proyecto3.agregarTrabajoAProyecto(encuesta1, proyecto3);
+			proyecto3.agregarTrabajoAProyecto(encuesta2, proyecto3);
+			proyecto1.agregarTrabajoAProyecto(encuesta3, proyecto1);
+			proyecto2.agregarTrabajoAProyecto(proyecto3, proyecto2);
+			proyecto1.agregarTrabajoAProyecto(proyecto2, proyecto1);
+			investigador1.agregarProyecto(proyecto1);
+			encuesta1.comenzarEncuesta();
+			encuesta1.responder(respuesta1);
+			encuesta1.responder(respuesta2);
+			encuesta1.responder(respuesta3);
+			encuesta1.responder(respuesta5);
+			encuesta1.responder(respuesta6);
+		}catch (Excepciones e){
+			//No hay excepcion para capturar.
+		}
+		
+		investigador1.setEncuestasMasUtilizadas();
+		for(Trabajo trabajo : investigador1.getEncuestasOrdenadas()){
+			System.out.println(trabajo.getNombre());
+		}
+		assertEquals(new Integer(1),encuesta1.cantidadDeVecesRespondida());
+	}
+	
+	@Test
+	public void test24AgregarUnProyectoASiMismoTiraUnaExcepcion(){
+		Proyecto proyecto1 = new Proyecto("Proyecto1");
+		try{
+			proyecto1.agregarTrabajoAProyecto(proyecto1, proyecto1);
+		}catch (Excepciones e){
+			assertEquals(e.getMessage(), "No puede agregar un proyecto a el mismo");
+		}
 	}
 }
 

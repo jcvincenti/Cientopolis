@@ -7,16 +7,16 @@ import java.util.List;
 public class Investigador implements Notificable{
 	private String nombre;
 	private String apellido;
-	private List <Proyecto> proyectos;
+	private List <Trabajo> proyectos;
 	private CriteriosDeOrden criterio;
-	private List<Encuesta> listaAOrdenar;
+	private List<Trabajo> listaAOrdenar;
 	
 	
 	public Investigador (String nombre, String apellido){
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.proyectos = new ArrayList<Proyecto>();
-		this.listaAOrdenar = new ArrayList<Encuesta>();
+		this.proyectos = new ArrayList<Trabajo>();
+		this.listaAOrdenar = new ArrayList<Trabajo>();
 	}
 	
 	public String getNombre(){
@@ -28,29 +28,45 @@ public class Investigador implements Notificable{
 	}
 	
 	public void setOrdenPorProyecto(){
+		List<Trabajo> listaARetornar = new ArrayList<Trabajo>();
 		this.criterio = new PorProyecto();
+		for (Trabajo trabajo : proyectos) {
+			listaARetornar.addAll(trabajo.getProyectos());
+		}
+		
+		for(Trabajo trabajo : listaARetornar){
+			Collections.sort(trabajo.getEncuestas(),this.criterio);
+			listaAOrdenar.addAll(trabajo.getEncuestas());
+		}
 	}
 	
 	public void setUltimasEncuestasCreadas(){
-		for(Proyecto trabajo : this.proyectos){
-			this.listaAOrdenar.addAll(trabajo.getEncuestas());
+		for(Trabajo trabajo : this.proyectos){
+			this.listaAOrdenar.addAll(trabajo.getTodasLasEncuestas());
 		}
 		this.criterio = new UltimasEncuestasCreadas();
+		Collections.sort(this.listaAOrdenar, this.criterio);
+		if(listaAOrdenar.size()>20){
+		listaAOrdenar = listaAOrdenar.subList(0, 20);
+		}
 	}
 	
 	public void setEncuestasMasUtilizadas(){
-		for(Proyecto trabajo : this.proyectos){
-			this.listaAOrdenar.addAll(trabajo.getEncuestas());
+		for(Trabajo trabajo : this.proyectos){
+			this.listaAOrdenar.addAll(trabajo.getTodasLasEncuestas());
 		}
 		this.criterio = new EncuestasMasUtilizadas();
+		Collections.sort(this.listaAOrdenar, this.criterio);
+		if(listaAOrdenar.size()>25){
+			listaAOrdenar = listaAOrdenar.subList(0, 25);
+			}
 	}
 	
-	public List<Encuesta> getEncuestasOrdenadas(){
-		Collections.sort(this.listaAOrdenar, this.criterio);
+	public List<Trabajo> getEncuestasOrdenadas(){
 		return this.listaAOrdenar;
 	}
 	
-	public List<Proyecto> getProyectos(){
+	public List<Trabajo> getProyectos(){
 		return this.proyectos;
 	}
 	
@@ -58,11 +74,11 @@ public class Investigador implements Notificable{
 		this.proyectos.add(proyecto);
 	}
 	
-	public void agregarEncuestaAProyecto (String nombreProyecto, String nombreEncuesta,String fechaDeEncuesta){
-		this.getProyecto(nombreProyecto).agregarEncuesta(Encuesta.nuevaEncuesta(nombreEncuesta,fechaDeEncuesta));
+	public void agregarTrabajoAProyecto (Trabajo trabajo, Proyecto proyecto) throws Excepciones{
+		proyecto.agregarTrabajoAProyecto(trabajo, proyecto);
 	}
 	
-	public Proyecto getProyecto(String nombre){
+	public Trabajo getProyecto(String nombre){
 		//buscamos el proyecto, si existe lo retornamos, sino retorna null.
 		return this.proyectos.stream().filter(proyecto -> proyecto.getNombre().equals(nombre)).findFirst().orElse(null);
 	}

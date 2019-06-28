@@ -20,6 +20,7 @@ public class Excepciones extends Exception{
 		break;
 		case(3): mensaje = "Debe comenzar la encuesta para poder responderla";
 		break;
+		case(5): mensaje = "No puede agregar un proyecto a el mismo";
 		}
 		
 		return mensaje;
