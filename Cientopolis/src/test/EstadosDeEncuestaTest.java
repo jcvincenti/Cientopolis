@@ -4,17 +4,17 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cientopolis.Abierta;
+import cientopolis.PreguntaAbierta;
 import cientopolis.Encuesta;
 import cientopolis.Excepciones;
-import cientopolis.Simple;
+import cientopolis.RespuestaSimple;
 
 public class EstadosDeEncuestaTest {
 	
 	Encuesta encuesta1 = Encuesta.nuevaEncuesta("Encuesta Cientopolis","13/07/2015");
-	Abierta pregunta2 = new Abierta ("pregunta2",false,null);
-	Abierta pregunta1 = new Abierta ("pregunta1",false,pregunta2);
-	Simple respuesta1 = new Simple ("respuesta1");
+	PreguntaAbierta pregunta2 = new PreguntaAbierta ("pregunta2",false,null);
+	PreguntaAbierta pregunta1 = new PreguntaAbierta ("pregunta1",false,pregunta2);
+	RespuestaSimple respuesta1 = new RespuestaSimple ("respuesta1");
 	
 	@Test
 	public void test01DebeActivarseLaEncuestaParaPoderResponderla(){

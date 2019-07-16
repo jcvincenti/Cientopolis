@@ -1,100 +1,124 @@
 package cientopolis;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Proyecto extends Trabajo{
+public class Proyecto{
 	
 	private String nombre;
-	public List <Trabajo> trabajos;
-
+	public List <Encuesta> encuestas;
+	public List <Proyecto> proyectosHijos;
+	
 	public Proyecto (String nombre){
 		this.nombre = nombre;
-		this.trabajos = new ArrayList <Trabajo>();
+		this.encuestas = new ArrayList <Encuesta>();
+		this.proyectosHijos = new ArrayList <Proyecto>();
+	}
+	
+	public static Proyecto nuevoProyecto(String nombre) {
+		return (new Proyecto(nombre));
 	}
 	
 	public String getNombre(){
 		return this.nombre;
 	}
 	
-	public void agregarEncuesta(Encuesta encuesta){
-		this.trabajos.add(encuesta);
+	public Boolean contieneAlProyecto(Proyecto proyecto) {
+		return this.getProyectos().contains(proyecto);
 	}
 	
-	@Override
-	public Boolean contieneAlTrabajo(Trabajo trabajo) {
-		return this.getTrabajos().contains(trabajo);
+	public Boolean contieneALaEncuesta(Encuesta encuesta) {
+		return this.getEncuestas().contains(encuesta);
 	}
 	
-	@Override
-	public List<Trabajo> getTrabajos(){	
-		List<Trabajo> trabajosARetornar = new ArrayList<Trabajo>();
-			if (!trabajos.isEmpty()){
-				trabajosARetornar.add(this);
-				for(Trabajo trabajoHijo : trabajos){
-					trabajosARetornar.addAll(trabajoHijo.getTrabajos());
+	public List<Proyecto> getProyectos(){	
+		List<Proyecto> proyectosARetornar = new ArrayList<Proyecto>();
+			if (!proyectosHijos.isEmpty()){
+				proyectosARetornar.add(this);
+				for(Proyecto proyectoHijo : proyectosHijos){
+					proyectosARetornar.addAll(proyectoHijo.getProyectos());
 		 		}
 			}else{
-				trabajosARetornar.add(this);
+				proyectosARetornar.add(this);
 			}
-		return trabajosARetornar;
-			
+		return proyectosARetornar;		
 	}
 	
-	public List<Trabajo> getEncuestas(){
-		List<Trabajo> encuestasARetornar = new ArrayList<Trabajo>();
-		
-		for(Trabajo trabajo : trabajos){
-			if (!trabajo.esProyecto()){
-				encuestasARetornar.add(trabajo);
-			}
-		}
-		
-		return encuestasARetornar;
+	public List<Encuesta> getEncuestas(){
+		return this.encuestas;
 	}
 	
-	@Override
-	public List<Trabajo> getProyectos(){
-		List<Trabajo> trabajosARetornar = new ArrayList<Trabajo>();
-		if (!trabajos.isEmpty()){
-			trabajosARetornar.add(this);
-			for(Trabajo trabajoHijo : trabajos){
-				trabajosARetornar.addAll(trabajoHijo.getProyectos());
-	 		}
-		}else{
-			trabajosARetornar.add(this);
-		}
-	return trabajosARetornar;
-	}
-	
-	public List<Encuesta> getTodasLasEncuestas (){
-		List<Encuesta> encuestasARetornar = new ArrayList<Encuesta>();		
-		if (!trabajos.isEmpty()){
-			for(Trabajo trabajoHijo : trabajos){
-				encuestasARetornar.addAll(trabajoHijo.getTodasLasEncuestas());
+	public List<Encuesta> getEncuestasTotales(){
+		List<Encuesta> encuestasARetornar = new ArrayList<Encuesta>(this.getEncuestas());
+		if (!proyectosHijos.isEmpty()){
+			for(Proyecto proyectoHijo : proyectosHijos){
+				encuestasARetornar.addAll(proyectoHijo.getEncuestas());
 			}
 		}
 		return encuestasARetornar;
-	}
-
-	public static Proyecto nuevoProyecto(String nombre) {
-		return (new Proyecto(nombre));
 	}
 	
 	public List<Encuesta> getEncuestasFinalizadas(){
 		List<Encuesta> topEncuestas = new ArrayList<Encuesta>();
-		topEncuestas = this.getTodasLasEncuestas();
-		Collections.sort(topEncuestas, (Trabajo e1, Trabajo e2)->e1.cantidadDeVecesRespondida()-e2.cantidadDeVecesRespondida());
-		if (trabajos.size()>5){
+		topEncuestas = this.getEncuestasTotales();
+		Collections.sort(topEncuestas, (Encuesta e1, Encuesta e2)->e1.cantidadDeVecesRespondida()-e2.cantidadDeVecesRespondida());
+		if (encuestas.size()>5){
 			topEncuestas = topEncuestas.subList(0, 5);
 		}
 		return topEncuestas;
 	}
 	
+	public void agregarProyectoHijo(Proyecto proyecto) {
+		this.proyectosHijos.add(proyecto);
+	}
+	
+	public void agregarEncuesta(Encuesta encuesta) {
+		this.encuestas.add(encuesta);
+	}
+	
+	public void agregarEncuestaAProyecto(Encuesta encuesta, Proyecto proyecto) throws Excepciones{
+		if (this.contieneALaEncuesta(encuesta)) { //compara si el trabajo actual no lo tiene dentro de su lista de trabajo ya incluido
+			throw new Excepciones(5);
+		}else if(proyecto.equals(this)){ // compara si el proyecto actual es al que se le quiere insertar el nuevo trabajo
+			this.encuestas.add(encuesta);
+		}else{
+			this.buscarProyectoAAgregarEncuesta(encuesta,proyecto); //hace un recorrido por las sublistas del proyecto actual para buscar si contiene el Proyecto deseado para agregar dicho trabajo
+		}
+	}
+		
+	public void buscarProyectoAAgregarEncuesta(Encuesta encuesta, Proyecto proyecto) throws Excepciones {
+		for (Proyecto p : proyectosHijos) {
+				if(p.equals(proyecto)){
+					p.agregarEncuesta(encuesta);
+				}else{
+					p.buscarProyectoAAgregarEncuesta(encuesta, proyecto);
+				}
+			}
+	}
+
+	public void agregarProyectoHijoAProyecto(Proyecto proyectoHijo, Proyecto proyecto) throws Excepciones{
+		if (this.contieneAlProyecto(proyectoHijo)) { //compara si el trabajo actual no lo tiene dentro de su lista de trabajo ya incluido
+			throw new Excepciones(5);
+		}else if(proyecto.equals(this)){ // compara si el proyecto actual es al que se le quiere insertar el nuevo trabajo
+			this.proyectosHijos.add(proyectoHijo);
+		}else{
+			this.buscarProyectoAAgregarProyectoHijo(proyectoHijo, proyecto); //hace un recorrido por las sublistas del proyecto actual para buscar si contiene el Proyecto deseado para agregar dicho trabajo
+		}
+	}
+
+	public void buscarProyectoAAgregarProyectoHijo(Proyecto proyectoAAgregar, Proyecto proyecto) throws Excepciones {
+		for (Proyecto p : proyectosHijos) { ///while?
+				if(p.equals(proyecto)){
+					p.agregarProyectoHijo(proyectoAAgregar);
+				}else{
+					p.buscarProyectoAAgregarProyectoHijo(proyectoAAgregar, proyecto);
+				}
+			}
+	}
+
 	public boolean getEstaFinalizada(){
-		List<Encuesta> temp = new ArrayList<Encuesta>(this.getTodasLasEncuestas());
+		List<Encuesta> temp = new ArrayList<Encuesta>(this.getEncuestasTotales());
 		boolean finalizada = true;
 		for (Encuesta encuesta : temp) {
 			if (!encuesta.getEstaFinalizada()){
@@ -103,41 +127,7 @@ public class Proyecto extends Trabajo{
 		}
 		return finalizada;
 	}
-	
-		@Override
-		public void agregarTrabajoAProyecto(Trabajo trabajo,Proyecto proyecto) throws Excepciones{
-			if (this.contieneAlTrabajo(trabajo)) {
-				throw new Excepciones(5);
-			}else if(proyecto.equals(this)){ 
-				this.trabajos.add(trabajo);
-			}else{
-				this.buscarProyectoAAgregarTrabajo(trabajo,proyecto);
-			}
-		}
 
-		public void buscarProyectoAAgregarTrabajo(Trabajo trabajo,Proyecto proyecto) throws Excepciones {
-			for (Trabajo trabajo2 : trabajos) {
-				if(trabajo2.esProyecto()){
-					if(trabajo2.equals(proyecto)){
-						trabajo2.agregarTrabajoAProyecto(trabajo2, proyecto);
-						break;
-					}else{
-						trabajo2.buscarProyectoAAgregarTrabajo(trabajo, proyecto);
-					}
-				}
-			}
-		}
-		
-		public Integer cantidadDeVecesRespondida(){
-			return null;
-		}
-		
-		public LocalDate getFechaDeCreacion(){
-			return null;
-		}
-		
-		@Override
-		public boolean esProyecto(){
-			return true;
-		}
+	
+	
 }

@@ -3,13 +3,13 @@ package test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import cientopolis.Abierta;
-import cientopolis.Simple;
+import cientopolis.PreguntaAbierta;
+import cientopolis.RespuestaSimple;
 
 public class AbiertaTest {
 
-	Abierta pregunta1 = new Abierta("¿Que edad tiene?",true,null);
-	Simple respuesta1 = new Simple ("25");
+	PreguntaAbierta pregunta1 = new PreguntaAbierta("¿Que edad tiene?",true,null);
+	RespuestaSimple respuesta1 = new RespuestaSimple ("25");
 
 	@Test
 	public void test01ObtenerOpcionesDePreguntaAbierta() {

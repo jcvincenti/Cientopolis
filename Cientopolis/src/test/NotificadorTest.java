@@ -7,15 +7,15 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import cientopolis.Abierta;
+import cientopolis.PreguntaAbierta;
 import cientopolis.Encuesta;
 import cientopolis.Importante;
 import cientopolis.Investigador;
 import cientopolis.Notificador;
 import cientopolis.Respondible;
 import cientopolis.Respuesta;
-import cientopolis.Simple;
-import cientopolis.SimpleSeleccion;
+import cientopolis.RespuestaSimple;
+import cientopolis.PreguntaSimpleSeleccion;
 
 public class NotificadorTest {
 
@@ -46,15 +46,15 @@ public class NotificadorTest {
 	public void test04SeRespondeUnaPreguntaImportanteYElNotificadorAvisaASusObservers(){
 		notificador.addObserver(investigador1);
 		Encuesta encuesta1 = Encuesta.nuevaEncuesta("Encuesta Cientopolis","13/07/2015");
-		Simple respuesta4 = new Simple ("respuesta4");
-		Simple respuesta3 = new Simple ("respuesta3");
-		Abierta pregunta5 = new Abierta ("pregunta5",false,null);
-		Abierta pregunta4 = new Abierta ("pregunta4",false,null);
+		RespuestaSimple respuesta4 = new RespuestaSimple ("respuesta4");
+		RespuestaSimple respuesta3 = new RespuestaSimple ("respuesta3");
+		PreguntaAbierta pregunta5 = new PreguntaAbierta ("pregunta5",false,null);
+		PreguntaAbierta pregunta4 = new PreguntaAbierta ("pregunta4",false,null);
 		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
-		Respondible pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		Respondible pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
 		pregunta3 = new Importante(pregunta3,notificador,encuesta1);
 		
 		pregunta3.responder(respuesta3);

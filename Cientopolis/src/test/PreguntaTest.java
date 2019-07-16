@@ -10,33 +10,33 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import cientopolis.Abierta;
-import cientopolis.Compuesta;
-import cientopolis.MultipleSeleccion;
+import cientopolis.PreguntaAbierta;
+import cientopolis.RespuestaCompuesta;
+import cientopolis.PreguntaMultipleSeleccion;
 import cientopolis.Respondible;
 import cientopolis.Respuesta;
-import cientopolis.Simple;
-import cientopolis.SimpleSeleccion;
+import cientopolis.RespuestaSimple;
+import cientopolis.PreguntaSimpleSeleccion;
 
 public class PreguntaTest {
 	
-	Simple respuesta6 = new Simple ("respuesta6");
-	Simple respuesta5 = new Simple ("respuesta5");
-	Simple respuesta4 = new Simple ("respuesta4");
-	Simple respuesta3 = new Simple ("respuesta3");
-	Simple respuesta2 = new Simple ("respuesta2");
-	Simple respuesta1 = new Simple ("respuesta1");
+	RespuestaSimple respuesta6 = new RespuestaSimple ("respuesta6");
+	RespuestaSimple respuesta5 = new RespuestaSimple ("respuesta5");
+	RespuestaSimple respuesta4 = new RespuestaSimple ("respuesta4");
+	RespuestaSimple respuesta3 = new RespuestaSimple ("respuesta3");
+	RespuestaSimple respuesta2 = new RespuestaSimple ("respuesta2");
+	RespuestaSimple respuesta1 = new RespuestaSimple ("respuesta1");
 	
-	Abierta pregunta6 = new Abierta("pregunta6",true,null);
+	PreguntaAbierta pregunta6 = new PreguntaAbierta("pregunta6",true,null);
 	
-	Abierta pregunta5 = new Abierta ("pregunta5",false,pregunta6);
-	Abierta pregunta4 = new Abierta ("pregunta4",false,pregunta6);
+	PreguntaAbierta pregunta5 = new PreguntaAbierta ("pregunta5",false,pregunta6);
+	PreguntaAbierta pregunta4 = new PreguntaAbierta ("pregunta4",false,pregunta6);
 	
 	Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 	
-	SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
-	Abierta pregunta2 = new Abierta ("pregunta2",false,pregunta3);
-	Abierta pregunta1 = new Abierta ("pregunta1",false,null);
+	PreguntaSimpleSeleccion pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+	PreguntaAbierta pregunta2 = new PreguntaAbierta ("pregunta2",false,pregunta3);
+	PreguntaAbierta pregunta1 = new PreguntaAbierta ("pregunta1",false,null);
 	
 	@Before
 	public void setUp(){
@@ -68,7 +68,7 @@ public class PreguntaTest {
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
-		SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		PreguntaSimpleSeleccion pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
 		
 		pregunta3.responder(respuesta3);
 		assertEquals(pregunta4,pregunta3.preguntaSiguiente());
@@ -76,7 +76,7 @@ public class PreguntaTest {
 	
 	@Test
 	public void test05ObtenerSiEsCompuestaLaPreguntaDeSimpleSeleccion(){
-		SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		PreguntaSimpleSeleccion pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
 		assertTrue(pregunta3.getTipoDePregunta());
 	}
 	
@@ -85,7 +85,7 @@ public class PreguntaTest {
 		Map <Respuesta,Respondible> opcionesPregunta3 = new HashMap <Respuesta,Respondible>();
 		opcionesPregunta3.put(respuesta3, pregunta4);
 		opcionesPregunta3.put(respuesta4, pregunta5);
-		SimpleSeleccion pregunta3 = new SimpleSeleccion ("pregunta3",opcionesPregunta3,null);
+		PreguntaSimpleSeleccion pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
 		assertTrue(pregunta3.getOpciones().contains(respuesta4)&& pregunta3.getOpciones().contains(respuesta3));
 	}
 	
@@ -102,7 +102,7 @@ public class PreguntaTest {
 	@Test
 	public void test09ObtenerRespuestaDeUnaPreguntaMultipleSeleccion(){
 		List<String> opciones = new ArrayList<String>();
-		MultipleSeleccion preguntaMS = new MultipleSeleccion("PreguntaMSPrueba",true,null,opciones);
+		PreguntaMultipleSeleccion preguntaMS = new PreguntaMultipleSeleccion("PreguntaMSPrueba",true,null,opciones);
 		preguntaMS.responder(respuesta1);
 		
 		assertEquals(preguntaMS.getRespuesta(),"respuesta1");
@@ -114,7 +114,7 @@ public class PreguntaTest {
 		opciones.add("opcion1");
 		opciones.add("opcion2");
 		opciones.add("opcion3");
-		MultipleSeleccion preguntaMS = new MultipleSeleccion("PreguntaMSPrueba",true,null,opciones);
+		PreguntaMultipleSeleccion preguntaMS = new PreguntaMultipleSeleccion("PreguntaMSPrueba",true,null,opciones);
 		
 		assertTrue(preguntaMS.getOpciones().contains("opcion1")&&
 				preguntaMS.getOpciones().contains("opcion2")&&
@@ -127,7 +127,7 @@ public class PreguntaTest {
 		opciones.add("opcion1");
 		opciones.add("opcion2");
 		opciones.add("opcion3");
-		Compuesta respuesta7 = new Compuesta (opciones);
+		RespuestaCompuesta respuesta7 = new RespuestaCompuesta (opciones);
 		
 		assertTrue(respuesta7.getDescripcion().contains("opcion1")&&
 				respuesta7.getDescripcion().contains("opcion2")&&

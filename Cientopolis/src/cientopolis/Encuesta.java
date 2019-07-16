@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Encuesta extends Trabajo{
+public class Encuesta{
 	
 	private String nombre;
 	private Respondible primerPregunta;
@@ -18,18 +18,11 @@ public class Encuesta extends Trabajo{
 		this.nombre = nombre;
 		this.cantidadDeVecesRespondida = 0;
 		this.encuestasFinalizadas = new ArrayList<EncuestaRespondida>();
-		this.estadoActual = new EnEdicion();
+		this.estadoActual = new EstadoDeEncuestaEnEdicion();
 		this.fechaDeCreacion = LocalDate.parse(fecha, DateTimeFormatter.ofPattern(("dd/MM/yyyy")));
 		finalizada = false;
 	}
-	
-	@Override
-	public List<Encuesta> getTodasLasEncuestas() {
-		List<Encuesta> encuestasADevolver = new ArrayList<Encuesta>();
-		encuestasADevolver.add(this);
-		return encuestasADevolver;	
-	}
-	
+
 	public LocalDate getFechaDeCreacion(){
 		return this.fechaDeCreacion;
 	}
@@ -39,17 +32,17 @@ public class Encuesta extends Trabajo{
 	}
 	
 	public void editarEncuesta() {
-		this.setEstado(new EnEdicion());
+		this.setEstado(new EstadoDeEncuestaEnEdicion());
 		finalizada = false;
 	}
 	
 	public void activarEncuesta() {
-		this.setEstado(new Activa());
+		this.setEstado(new EstadoDeEncuestaActiva());
 		finalizada = false;
 	}
 	
 	public void cerrarEncuesta(){
-		this.setEstado(new Cerrada());
+		this.setEstado(new EstadoDeEncuestaCerrada());
 		finalizada = true;
 	}
 	
@@ -101,36 +94,7 @@ public class Encuesta extends Trabajo{
 		this.encuestasFinalizadas.add(encuesta);
 	}
 	
-	@Override
-	public Boolean contieneAlTrabajo(Trabajo trabajo) {
-		return null;
-	}
 
-	@Override
-	public List<Trabajo> getTrabajos() {
-		List<Trabajo> encuestasADevolver = new ArrayList<Trabajo>();
-		encuestasADevolver.add(this);
-		return encuestasADevolver;
-	}
-	
-	@Override
-	public void agregarEncuesta(Encuesta encuesta){}
-	
-	@Override
-	public void buscarProyectoAAgregarTrabajo(Trabajo trabajo, Proyecto proyecto){}
-	
-	@Override
-	public List<Trabajo> getProyectos(){
-		List<Trabajo> encuestasADevolver = new ArrayList<Trabajo>();
-		return encuestasADevolver;
-	}
-		
-	@Override
-	public List<Trabajo> getEncuestas(){
-		List<Trabajo> encuestasADevolver = new ArrayList<Trabajo>();
-		return encuestasADevolver;
-	}
-	
 	public List<Respuesta> getTodasLasRespuestas(){
 		List<Respuesta> temp = new ArrayList<Respuesta>();
 		for (EncuestaRespondida encuesta : encuestasFinalizadas) {
