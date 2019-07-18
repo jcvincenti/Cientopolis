@@ -2,23 +2,13 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import cientopolis.*;
 
-import cientopolis.PreguntaAbierta;
-import cientopolis.Encuesta;
-import cientopolis.ImportanteEspecifica;
-import cientopolis.Investigador;
-import cientopolis.Notificador;
-import cientopolis.Proyecto;
-import cientopolis.Excepciones;
-import cientopolis.Respondible;
-import cientopolis.Respuesta;
-import cientopolis.RespuestaSimple;
-import cientopolis.PreguntaSimpleSeleccion;
+import cientopolis.*;
 
 
 public class InvestigadorTest {
@@ -95,49 +85,55 @@ public class InvestigadorTest {
 	}
 	
 	@Test
-	public void test07ObtenerLosProyectosDeUnInvestigador(){		
+	public void test07ObtenerLosProyectosDeUnInvestigador() throws Excepciones{		
 		investigador1.agregarProyecto(proyecto1);
+		investigador1.agregarSubproyectoAProyecto(proyecto2, proyecto1);
+		investigador1.agregarSubproyectoAProyecto(proyecto3, proyecto1);
 		
 		assertTrue(investigador1.getProyectos().contains(proyecto1));
+		assertTrue(investigador1.getProyectos().contains(proyecto2));
+		assertTrue(investigador1.getProyectos().contains(proyecto3));
 	}
 
-	/*
+	
 	@Test
 	public void test08OrdenarEncuestasPorProyecto() throws Excepciones{
-			proyecto3.agregarEncuestaAProyecto(encuesta1, proyecto1);
-			proyecto3.agregarEncuestaAProyecto(encuesta2, proyecto2);
-			
+	
 			investigador1.agregarProyecto(proyecto1);
 			investigador1.agregarProyecto(proyecto2);
-
-			CriterioDeOrden criterioPorOrdenAlfabeticoDeProyectos = new PorProyecto();
+			
+			investigador1.agregarEncuestaAProyecto(encuesta1, proyecto1);
+			investigador1.agregarEncuestaAProyecto(encuesta2, proyecto2);
+			
+			CriterioDeOrden criterioPorOrdenAlfabeticoDeProyectos = new CriterioDeOrdenPorProyecto();
 			investigador1.setCriterioDeOrden(criterioPorOrdenAlfabeticoDeProyectos);
 	
-		assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1));
+			assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1));
 	}
-	*/
+	
 	
 	@Test
 	public void test09OrdenarEncuestasPorUltimasCreadas(){
 		
 		try{
-			proyecto3.agregarEncuestaAProyecto(encuesta1, proyecto3);
-			proyecto3.agregarEncuestaAProyecto(encuesta2, proyecto3);
-			proyecto1.agregarEncuestaAProyecto(encuesta3, proyecto1);
-			proyecto2.agregarProyectoHijoAProyecto(proyecto3, proyecto2);
-			proyecto1.agregarProyectoHijoAProyecto(proyecto2, proyecto1);
 			investigador1.agregarProyecto(proyecto1);
+			investigador1.agregarSubproyectoAProyecto(proyecto2, proyecto1);
+			investigador1.agregarSubproyectoAProyecto(proyecto3, proyecto2);
+			investigador1.agregarEncuestaAProyecto(encuesta1, proyecto1);
+			investigador1.agregarEncuestaAProyecto(encuesta2, proyecto3);
+			investigador1.agregarEncuestaAProyecto(encuesta3, proyecto3);
 			CriterioDeOrden ultimasCreadas = new CriterioDeOrdenPorUltimasEncuestasCreadas();
 			investigador1.setCriterioDeOrden(ultimasCreadas);
 	
 		}catch (Excepciones e){
 				//no hay excepciones que capturar
 		}
-		
-		assertEquals(investigador1.getListaPorCriterioElegido().get(0).getFechaDeCreacion(),(encuesta3.getFechaDeCreacion()));
+		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta1));
+		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta2));
+		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta3));
 	}
 
-	/*
+	
 	@Test
 	public void test10OrdenarEncuestasPorMasUtilizadas(){
 		Investigador investigador1 = new Investigador("Roberto","Gomez");
@@ -183,7 +179,7 @@ public class InvestigadorTest {
 			encuesta1.responder(respuesta3);
 			encuesta1.responder(respuesta5);
 			encuesta1.responder(respuesta6);
-			CriterioDeOrden masUtilizadas = new EncuestasMasUtilizadas();
+			CriterioDeOrden masUtilizadas = new CriterioDeOrdenPorEncuestasMasUtilizadas();
 			investigador1.setCriterioDeOrden(masUtilizadas);
 		}catch (Excepciones e){
 			//No hay excepcion para capturar.
@@ -191,6 +187,6 @@ public class InvestigadorTest {
 		
 		assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1)); //ERROR ASSERT
 	}
-	*/
+	
 	
 }

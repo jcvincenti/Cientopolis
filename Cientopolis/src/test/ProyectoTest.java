@@ -14,7 +14,7 @@ import cientopolis.Encuesta;
 import cientopolis.Excepciones;
 import cientopolis.Proyecto;
 
-class ProyectoTest {
+public class ProyectoTest {
 	
 	Proyecto proyecto1 = new Proyecto("proyecto re piola");
 	Proyecto proyecto2 = new Proyecto("Proyecto no tan piola");
@@ -23,11 +23,11 @@ class ProyectoTest {
 	
 
 	@Before
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		proyecto1.agregarEncuesta(encuesta1);
 	}
 
-	@org.junit.Test
+	@Test
 	public void test01ObtenerElNombreDeUnProyecto(){
 		assertEquals(proyecto1.getNombre(), "proyecto re piola");
 	}
@@ -68,11 +68,13 @@ class ProyectoTest {
 		Proyecto proyecto1 = new Proyecto("Proyecto1");
 		Proyecto proyecto2 = new Proyecto("Proyecto2");
 		Proyecto proyecto3 = new Proyecto("Proyecto3");
+		Encuesta encuesta2 = new Encuesta ("encuesta2", "13/07/2015");
 
 		try{
 		proyecto2.agregarProyectoHijoAProyecto(proyecto3, proyecto2);
 		proyecto1.agregarProyectoHijoAProyecto(proyecto2, proyecto1);
 		proyecto1.agregarEncuestaAProyecto(encuesta1, proyecto2);
+		proyecto1.agregarEncuestaAProyecto(encuesta2, proyecto2);
 		
 		}catch (Excepciones e){}
 		
@@ -80,6 +82,8 @@ class ProyectoTest {
 		assertTrue(proyecto2.getEncuestasTotales().contains(encuesta1)); //se verifica desde el mismo proyecto al que se le agregó la encuesta, si la contiene.
 		assertTrue(proyecto1.getProyectos().contains(proyecto2));
 		assertFalse(proyecto3.getEncuestasTotales().contains(encuesta1)); //vemos si el proyecto hijo restante, no contiene la encuesta.
+		assertTrue(proyecto1.getEncuestas().isEmpty());
+		assertTrue(proyecto2.getEncuestas().contains(encuesta1) && proyecto2.getEncuestas().contains(encuesta2));
 	}
 	
 	@Test
@@ -98,10 +102,10 @@ class ProyectoTest {
 		proyecto1.agregarEncuesta(encuesta6);
 		
 		assertTrue(proyecto1.getEncuestasFinalizadas().contains(encuesta1)&&
-				proyecto1.getEncuestasTotales().contains(encuesta2)&&
-				proyecto1.getEncuestasTotales().contains(encuesta3)&&
-				proyecto1.getEncuestasTotales().contains(encuesta4)&& 
-				proyecto1.getEncuestasTotales().contains(encuesta5));
+				proyecto1.getEncuestasFinalizadas().contains(encuesta2)&&
+				proyecto1.getEncuestasFinalizadas().contains(encuesta3)&&
+				proyecto1.getEncuestasFinalizadas().contains(encuesta4)&& 
+				proyecto1.getEncuestasFinalizadas().contains(encuesta5));
 	}
 	
 	@Test

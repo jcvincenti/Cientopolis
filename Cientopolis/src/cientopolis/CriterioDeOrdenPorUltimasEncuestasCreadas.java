@@ -7,7 +7,7 @@ public class CriterioDeOrdenPorUltimasEncuestasCreadas extends CriterioDeOrden  
 
 	@Override
 	public int compare(Encuesta e1, Encuesta e2) {
-		return e1.getFechaDeCreacion().compareTo(e2.getFechaDeCreacion());
+		return e2.getFechaDeCreacion().compareTo(e1.getFechaDeCreacion());
 	}
 
 	

@@ -6,14 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CriterioDeOrdenPorProyecto extends CriterioDeOrden  implements Comparator<Proyecto> {
-
+	
 	List<Proyecto> listaProyectos;
 	
+	@Override
 	public int compare(Proyecto p1, Proyecto p2) {
-		return p2.getNombre().compareTo(p1.getNombre());
+		return p1.getNombre().compareTo(p2.getNombre());
 	}
-	
-	
 	
 	//guardar todos los proyectos de un investigador en una lista, sin sus proyectos hijos, solo encuestas.
 	//por cada proyecto, se ordena alfabeticamente la lista de encuestas que tiene.
@@ -22,6 +21,7 @@ public class CriterioDeOrdenPorProyecto extends CriterioDeOrden  implements Comp
 	@Override
 	public void setListaSegunCriterio(Investigador investigador) {
 		listaProyectos = new ArrayList<Proyecto>(investigador.getProyectos());
+		listaAOrdenar = new ArrayList<Encuesta>();
 		Collections.sort(listaProyectos,this);
 		for(Proyecto proyecto : listaProyectos) {
 			listaAOrdenar.addAll(proyecto.getEncuestas());

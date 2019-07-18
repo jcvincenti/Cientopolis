@@ -35,7 +35,7 @@ public class Investigador implements Notificable{
 	public List<Encuesta> getEncuestas(){
 		List<Encuesta> temp = new ArrayList<Encuesta>();
 		for (Proyecto proyecto : proyectos) {
-			temp.addAll(proyecto.getEncuestasTotales());
+			temp.addAll(proyecto.getEncuestas());
 		}
 		return temp;
 	}
@@ -48,8 +48,8 @@ public class Investigador implements Notificable{
 		proyecto.agregarEncuestaAProyecto(encuesta, proyecto);
 	}
 	
-	public void agregarSubproyectoAProyecto (Proyecto proyectoAAgregar, Proyecto proyecto) throws Excepciones{
-		proyecto.agregarProyectoHijoAProyecto(proyectoAAgregar, proyecto);
+	public void agregarSubproyectoAProyecto (Proyecto proyectoHijo, Proyecto proyecto) throws Excepciones{
+		proyecto.agregarProyectoHijoAProyecto(proyectoHijo, proyecto);
 	}
 	
 	public Proyecto getProyecto(String nombre){
