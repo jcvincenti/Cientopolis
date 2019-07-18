@@ -107,7 +107,6 @@ public class InvestigadorTest {
 			CriterioDeOrden criterioPorOrdenAlfabeticoDeProyectos = new CriterioDeOrdenPorProyecto();
 			investigador1.setCriterioDeOrden(criterioPorOrdenAlfabeticoDeProyectos);
 			
-			System.out.println(proyecto1.getEncuestasTotales().size());
 			assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1));
 			assertTrue(investigador1.getListaPorCriterioElegido().get(1).equals(encuesta2));
 	}

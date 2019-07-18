@@ -93,8 +93,6 @@ public class EncuestaTest {
 			//No hay excepcion para capturar.
 		}
 		assertEquals(new Integer(1),encuesta1.cantidadDeVecesRespondida());
-		System.out.println(encuesta1.getTodasLasRespuestas().get(0));
-		System.out.println(respuesta1);
 	}
 	
 	@Test
@@ -114,7 +112,7 @@ public class EncuestaTest {
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
 		Respondible pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
-		pregunta3 = new ImportanteEspecifica(pregunta3,notificador,encuesta1,respuesta3);
+		pregunta3 = new ImportanteEspecifica(pregunta3,notificador,encuesta1,respuesta4);
 		PreguntaAbierta pregunta2 = new PreguntaAbierta ("pregunta2",false,pregunta3);
 		PreguntaAbierta pregunta1 = new PreguntaAbierta ("pregunta1",false,pregunta2);
 		proyecto1.agregarEncuesta(encuesta1);
