@@ -93,7 +93,8 @@ public class EncuestaTest {
 			//No hay excepcion para capturar.
 		}
 		assertEquals(new Integer(1),encuesta1.cantidadDeVecesRespondida());
-		
+		System.out.println(encuesta1.getTodasLasRespuestas().get(0));
+		System.out.println(respuesta1);
 	}
 	
 	@Test
@@ -119,8 +120,6 @@ public class EncuestaTest {
 		proyecto1.agregarEncuesta(encuesta1);
 		
 		encuesta1.setPrimerPregunta(pregunta1);
-		
-		//assertEquals(6,encuesta1.getPreguntas().size());
 		encuesta1.activarEncuesta();
 		
 		List<Respuesta> temp = new ArrayList<Respuesta>();

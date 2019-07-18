@@ -100,37 +100,35 @@ public class InvestigadorTest {
 	public void test08OrdenarEncuestasPorProyecto() throws Excepciones{
 	
 			investigador1.agregarProyecto(proyecto1);
-			investigador1.agregarProyecto(proyecto2);
+			investigador1.agregarSubproyectoAProyecto(proyecto2,proyecto1);
 			
 			investigador1.agregarEncuestaAProyecto(encuesta1, proyecto1);
 			investigador1.agregarEncuestaAProyecto(encuesta2, proyecto2);
 			
 			CriterioDeOrden criterioPorOrdenAlfabeticoDeProyectos = new CriterioDeOrdenPorProyecto();
 			investigador1.setCriterioDeOrden(criterioPorOrdenAlfabeticoDeProyectos);
-	
+			
+			System.out.println(proyecto1.getEncuestasTotales().size());
 			assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1));
+			assertTrue(investigador1.getListaPorCriterioElegido().get(1).equals(encuesta2));
 	}
 	
 	
 	@Test
-	public void test09OrdenarEncuestasPorUltimasCreadas(){
+	public void test09OrdenarEncuestasPorUltimasCreadas() throws Excepciones{
 		
-		try{
-			investigador1.agregarProyecto(proyecto1);
-			investigador1.agregarSubproyectoAProyecto(proyecto2, proyecto1);
-			investigador1.agregarSubproyectoAProyecto(proyecto3, proyecto2);
-			investigador1.agregarEncuestaAProyecto(encuesta1, proyecto1);
-			investigador1.agregarEncuestaAProyecto(encuesta2, proyecto3);
-			investigador1.agregarEncuestaAProyecto(encuesta3, proyecto3);
-			CriterioDeOrden ultimasCreadas = new CriterioDeOrdenPorUltimasEncuestasCreadas();
-			investigador1.setCriterioDeOrden(ultimasCreadas);
+		investigador1.agregarProyecto(proyecto1);
+		investigador1.agregarSubproyectoAProyecto(proyecto2, proyecto1);
+		investigador1.agregarSubproyectoAProyecto(proyecto3, proyecto2);
+		investigador1.agregarEncuestaAProyecto(encuesta1, proyecto1); //2015
+		investigador1.agregarEncuestaAProyecto(encuesta2, proyecto2); //2018
+		investigador1.agregarEncuestaAProyecto(encuesta3, proyecto2); //2017
+		CriterioDeOrden ultimasCreadas = new CriterioDeOrdenPorUltimasEncuestasCreadas();
+		investigador1.setCriterioDeOrden(ultimasCreadas);
 	
-		}catch (Excepciones e){
-				//no hay excepciones que capturar
-		}
-		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta1));
-		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta2));
-		assertTrue(investigador1.getListaPorCriterioElegido().contains(encuesta3));
+		assertEquals(investigador1.getListaPorCriterioElegido().get(0),encuesta2);
+		assertEquals(investigador1.getListaPorCriterioElegido().get(1),encuesta3);
+		assertEquals(investigador1.getListaPorCriterioElegido().get(2),encuesta1);
 	}
 
 	
@@ -156,15 +154,7 @@ public class InvestigadorTest {
 		proyecto1.agregarEncuesta(encuesta1);
 		
 		encuesta1.setPrimerPregunta(pregunta1);
-		
-		//assertEquals(6,encuesta1.getPreguntas().size());
 		encuesta1.activarEncuesta();
-		
-		Proyecto proyecto1 = new Proyecto("Proyecto1");
-		Proyecto proyecto2 = new Proyecto("Proyecto2");
-		Proyecto proyecto3 = new Proyecto("Proyecto3");
-		Encuesta encuesta2 = new Encuesta ("encuesta2", "13/07/2018");
-		Encuesta encuesta3 = new Encuesta ("encuesta3", "13/07/2017");
 		
 		try{
 			proyecto3.agregarEncuestaAProyecto(encuesta1, proyecto3);
@@ -187,6 +177,5 @@ public class InvestigadorTest {
 		
 		assertTrue(investigador1.getListaPorCriterioElegido().get(0).equals(encuesta1)); //ERROR ASSERT
 	}
-	
 	
 }

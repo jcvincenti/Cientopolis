@@ -50,7 +50,6 @@ public class ProyectoTest {
 		try{
 			proyecto1.agregarProyectoHijoAProyecto(proyecto2, proyecto1);
 		}catch (Excepciones e){}
-		assertTrue(proyecto1.contieneAlProyecto(proyecto1));
 		assertTrue(proyecto1.getProyectos().contains(proyecto2));
 	}
 
@@ -73,17 +72,16 @@ public class ProyectoTest {
 		try{
 		proyecto2.agregarProyectoHijoAProyecto(proyecto3, proyecto2);
 		proyecto1.agregarProyectoHijoAProyecto(proyecto2, proyecto1);
-		proyecto1.agregarEncuestaAProyecto(encuesta1, proyecto2);
+		proyecto1.agregarEncuestaAProyecto(encuesta1, proyecto1);
 		proyecto1.agregarEncuestaAProyecto(encuesta2, proyecto2);
 		
 		}catch (Excepciones e){}
 		
-		assertTrue(proyecto1.getEncuestasTotales().contains(encuesta1)); //se verifica desde el proyecto "padre", si la encuesta está dentro de los subproyectos
-		assertTrue(proyecto2.getEncuestasTotales().contains(encuesta1)); //se verifica desde el mismo proyecto al que se le agregó la encuesta, si la contiene.
+		assertTrue(proyecto1.getEncuestasTotales().contains(encuesta1) && proyecto1.getEncuestasTotales().contains(encuesta2)); //se verifica desde el proyecto "padre", si la encuesta está dentro de los subproyectos
 		assertTrue(proyecto1.getProyectos().contains(proyecto2));
+		assertTrue(proyecto1.getProyectos().contains(proyecto3));
 		assertFalse(proyecto3.getEncuestasTotales().contains(encuesta1)); //vemos si el proyecto hijo restante, no contiene la encuesta.
-		assertTrue(proyecto1.getEncuestas().isEmpty());
-		assertTrue(proyecto2.getEncuestas().contains(encuesta1) && proyecto2.getEncuestas().contains(encuesta2));
+		assertTrue(proyecto2.getEncuestas().contains(encuesta2));
 	}
 	
 	@Test
