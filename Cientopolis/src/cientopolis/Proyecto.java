@@ -33,28 +33,21 @@ public class Proyecto{
 	}
 	
 	public List<Proyecto> getProyectos(){	
-		List<Proyecto> proyectosARetornar = new ArrayList<Proyecto>();
-			if (!proyectosHijos.isEmpty()){
-				proyectosARetornar.add(this);
-				for(Proyecto proyectoHijo : proyectosHijos){
-					proyectosARetornar.addAll(proyectoHijo.getProyectos());
-		 		}
-			}else{
-				proyectosARetornar.add(this);
-			}
+		List<Proyecto> proyectosARetornar = new ArrayList<Proyecto>(this.proyectosHijos);
+			for(Proyecto proyectoHijo : proyectosHijos){
+				proyectosARetornar.addAll(proyectoHijo.getProyectos());
+		 	}
 		return proyectosARetornar;		
 	}
 	
-	public List<Encuesta> getEncuestas(){
+	public List<Encuesta> getEncuestas(){ 
 		return this.encuestas;
 	}
 	
 	public List<Encuesta> getEncuestasTotales(){
 		List<Encuesta> encuestasARetornar = new ArrayList<Encuesta>(this.getEncuestas());
-		if (!proyectosHijos.isEmpty()){
-			for(Proyecto proyectoHijo : proyectosHijos){
-				encuestasARetornar.addAll(proyectoHijo.getEncuestas());
-			}
+		for(Proyecto proyectoHijo : proyectosHijos){
+			encuestasARetornar.addAll(proyectoHijo.getEncuestas());
 		}
 		return encuestasARetornar;
 	}

@@ -25,7 +25,7 @@ public class Investigador implements Notificable{
 	}
 	
 	public List<Proyecto> getProyectos(){
-		List<Proyecto> temp = new ArrayList<Proyecto>();
+		List<Proyecto> temp = new ArrayList<Proyecto>(this.proyectos);
 		for (Proyecto proyecto : proyectos) {
 			temp.addAll(proyecto.getProyectos());
 		}
@@ -35,7 +35,7 @@ public class Investigador implements Notificable{
 	public List<Encuesta> getEncuestas(){
 		List<Encuesta> temp = new ArrayList<Encuesta>();
 		for (Proyecto proyecto : proyectos) {
-			temp.addAll(proyecto.getEncuestas());
+			temp.addAll(proyecto.getEncuestasTotales());
 		}
 		return temp;
 	}
@@ -65,10 +65,6 @@ public class Investigador implements Notificable{
 	public void setCriterioDeOrden(CriterioDeOrden criterioElegido) {
 		this.criterio = criterioElegido;
 		this.criterio.setListaSegunCriterio(this);
-	}
-	
-	public CriterioDeOrden getCriterioDeOrden() {
-		return this.criterio;
 	}
 	
 	public List<Encuesta> getListaPorCriterioElegido(){

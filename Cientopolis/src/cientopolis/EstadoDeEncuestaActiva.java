@@ -33,7 +33,6 @@ public class EstadoDeEncuestaActiva extends EstadoDeEncuesta {
 				encuestaRespondida.agregarRespuesta(respuesta);
 				encuestaRespondida.getProximaPregunta().responder(respuesta);
 				encuesta.agregarEncuestaFinalizada(encuestaRespondida);
-				encuesta.sumarCantidadDeVecesRespondida();
 				this.encuestaRespondida = null;
 				}
 		}	

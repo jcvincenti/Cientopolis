@@ -8,7 +8,6 @@ public class Encuesta{
 	
 	private String nombre;
 	private Respondible primerPregunta;
-	private Integer cantidadDeVecesRespondida;
 	private List<EncuestaRespondida> encuestasFinalizadas;
 	private EstadoDeEncuesta estadoActual;
 	private LocalDate fechaDeCreacion;
@@ -16,7 +15,6 @@ public class Encuesta{
 	
 	public Encuesta (String nombre,String fecha){
 		this.nombre = nombre;
-		this.cantidadDeVecesRespondida = 0;
 		this.encuestasFinalizadas = new ArrayList<EncuestaRespondida>();
 		this.estadoActual = new EstadoDeEncuestaEnEdicion();
 		this.fechaDeCreacion = LocalDate.parse(fecha, DateTimeFormatter.ofPattern(("dd/MM/yyyy")));
@@ -46,10 +44,6 @@ public class Encuesta{
 		finalizada = true;
 	}
 	
-	public EstadoDeEncuesta getEstado() {
-		return this.estadoActual;
-	}
-	
 	public boolean getEstaFinalizada(){
 		return this.finalizada;
 	}
@@ -71,7 +65,7 @@ public class Encuesta{
 	}
 	
 	public Integer cantidadDeVecesRespondida(){
-		return this.cantidadDeVecesRespondida;
+		return this.encuestasFinalizadas.size();
 	}
 	
 	public Respondible getPrimerPregunta(){
@@ -84,10 +78,6 @@ public class Encuesta{
 	
 	public void responder (Respuesta respuesta) throws Excepciones{
 			estadoActual.responderEncuesta(respuesta);
-	}
-	
-	public void sumarCantidadDeVecesRespondida(){
-		this.cantidadDeVecesRespondida = this.cantidadDeVecesRespondida + 1;
 	}
 	
 	public void agregarEncuestaFinalizada(EncuestaRespondida encuesta){

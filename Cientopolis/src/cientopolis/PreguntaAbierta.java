@@ -15,7 +15,7 @@ public class PreguntaAbierta extends Pregunta implements Respondible{
 	}
 	
 	public boolean esFinal(){
-		return this.esFinal;
+		return this.preguntaSiguiente == null;
 	}
 	
 }
