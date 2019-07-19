@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import cientopolis.PreguntaAbierta;
 import cientopolis.Encuesta;
-import cientopolis.Importante;
+import cientopolis.PreguntaImportante;
 import cientopolis.Investigador;
 import cientopolis.Notificador;
 import cientopolis.Respondible;
@@ -55,7 +55,7 @@ public class NotificadorTest {
 		opcionesPregunta3.put(respuesta4, pregunta5);
 		
 		Respondible pregunta3 = new PreguntaSimpleSeleccion ("pregunta3",opcionesPregunta3,null);
-		pregunta3 = new Importante(pregunta3,notificador,encuesta1);
+		pregunta3 = new PreguntaImportante(pregunta3,notificador,encuesta1);
 		
 		pregunta3.responder(respuesta3);
 	}

@@ -1,10 +1,10 @@
 package cientopolis;
 
-public class ImportanteEspecifica extends PreguntaDecorator implements Respondible{
+public class PreguntaImportanteEspecifica extends PreguntaDecorator implements Respondible{
 	
 	private Respuesta respuesta;
 	
-	public ImportanteEspecifica(Respondible preguntaD, Notificador notificadorD, Encuesta encuestaD,Respuesta respuestaD) {
+	public PreguntaImportanteEspecifica(Respondible preguntaD, Notificador notificadorD, Encuesta encuestaD,Respuesta respuestaD) {
 		super(preguntaD, notificadorD, encuestaD);
 		this.respuesta = respuestaD;
 	}

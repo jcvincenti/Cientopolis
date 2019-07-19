@@ -1,8 +1,8 @@
 package cientopolis;
 
-public class Importante extends PreguntaDecorator implements Respondible{
+public class PreguntaImportante extends PreguntaDecorator implements Respondible{
 
-	public Importante(Respondible preguntaD, Notificador notificadorD, Encuesta encuestaD) {
+	public PreguntaImportante(Respondible preguntaD, Notificador notificadorD, Encuesta encuestaD) {
 		super(preguntaD, notificadorD, encuestaD);
 	}
 
